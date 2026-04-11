@@ -44,10 +44,10 @@ L'objectif est de concevoir, conteneuriser et déployer une API REST avec Python
 
 | Membre    | Branche Git                    | Responsabilité                                      |
 |-----------|-------------------------------|------------------------------------------------------|
-| [NOM 1]   | `feature/endpoints-base`      | Routes `/hello`, `/status` + structure du projet     |
-| [NOM 2]   | `feature/gcs-integration`     | Service GCS (`gcs_service.py`) + routes `/data`      |
-| [NOM 3]   | `feature/vertex-poem`         | Service Vertex AI (`vertex_service.py`) + route `/poem` |
-| [NOM 4]   | `feature/docker-deploy`       | Dockerfile, `.dockerignore`, déploiement Cloud Run   |
+| Axel   | `feature/endpoints-base`      | Routes `/hello`, `/status` + structure du projet     |
+| [Axel  | `feature/gcs-integration`     | Service GCS (`gcs_service.py`) + routes `/data`      |
+| Mathis   | `feature/vertex-poem`         | Service Vertex AI (`vertex_service.py`) + route `/poem` |
+| Mathis   | `feature/docker-deploy`       | Dockerfile, `.dockerignore`, déploiement Cloud Run   |
 
 ---
 
