@@ -1,0 +1,30 @@
+# Environnement virtuel
+venv/
+.venv/
+env/
+
+# Cache Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Variables d'environnement locales
+.env
+
+# Clés de compte de service GCP (ne jamais committer !)
+*.json
+
+# Éditeurs
+.vscode/
+.idea/
+*.swp
+
+# Artefacts de build
+dist/
+build/
+*.egg-info/
+
+# Pytest
+.pytest_cache/
+.coverage
+htmlcov/
