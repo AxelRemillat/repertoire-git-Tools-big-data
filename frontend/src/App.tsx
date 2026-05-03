@@ -40,9 +40,9 @@ export default function App() {
   async function fetchStatus() {
     setLoadingStatus(true);
     try {
-      const res = await fetch(`${API_BASE}/`);
+      const res = await fetch(`${API_BASE}/hello`);
       const data = await res.json();
-      setOnline(true);
+      setOnline(res.ok);
       setHelloMessage(data.message ?? '');
       setStatusTime(new Date().toLocaleTimeString('fr-FR').replace(/:/g, ' : '));
     } catch {
@@ -69,7 +69,7 @@ export default function App() {
   async function handleGeneratePoem() {
     setPoemLoading(true);
     try {
-      const res = await fetch(`${API_BASE}/poem`, { method: 'POST' });
+      const res = await fetch(`${API_BASE}/poem`);
       const data = await res.json();
       const text: string = data.poem ?? data.text ?? JSON.stringify(data);
       setPoem(text);
@@ -84,17 +84,21 @@ export default function App() {
   async function handleAddEntry(e: FormEvent) {
     e.preventDefault();
     try {
-      await fetch(`${API_BASE}/data`, {
+      const res = await fetch(`${API_BASE}/data`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: formName, score: formScore }),
+        body: JSON.stringify({ name: formName, score: Number(formScore) }),
       });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error((err as { detail?: string }).detail ?? `HTTP ${res.status}`);
+      }
       toast.success('Entrée ajoutée !');
       setFormName('');
       setFormScore(0);
       fetchEntries();
-    } catch {
-      toast.error("Erreur lors de l'ajout");
+    } catch (err) {
+      toast.error(`Erreur : ${err instanceof Error ? err.message : "Échec de l'ajout"}`);
     }
   }
 
