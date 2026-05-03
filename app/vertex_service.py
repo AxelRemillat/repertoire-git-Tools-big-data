@@ -1,7 +1,12 @@
 """
 Service Vertex AI — génération d'un poème en français via Gemini.
+
+Variables d'environnement requises :
+  GCP_PROJECT_ID — identifiant du projet GCP
+  GCP_REGION     — région (défaut : europe-west1)
 """
 import os
+
 import vertexai
 from vertexai.generative_models import GenerativeModel
 
@@ -35,5 +40,5 @@ def generate_poem() -> str:
             return text
     except Exception as e:
         print(f"[Vertex AI fallback] Error: {e}")
-    
+
     return FALLBACK_POEM

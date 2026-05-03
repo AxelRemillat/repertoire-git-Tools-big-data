@@ -4,6 +4,7 @@ Point d'entrée FastAPI — routes principales de l'API mini-projet ESME.
 from datetime import datetime, timezone
 
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 
 load_dotenv(override=True)
@@ -15,6 +16,14 @@ app = FastAPI(
     title="Mini API ESME",
     description="API FastAPI déployée sur GCP Cloud Run avec GCS et Vertex AI",
     version="1.0.0",
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 
