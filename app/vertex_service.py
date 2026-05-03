@@ -24,7 +24,7 @@ def generate_poem() -> str:
     Initialise Vertex AI, envoie le prompt à Gemini et retourne le texte généré.
     Lève une RuntimeError si la réponse est vide.
     """
-    vertexai.init(project=GCP_PROJECT_ID, location=GCP_REGION)
+    vertexai.init(project=GCP_PROJECT_ID, location="us-central1")
 
     model = GenerativeModel("gemini-1.5-flash")
     response = model.generate_content(PROMPT)
