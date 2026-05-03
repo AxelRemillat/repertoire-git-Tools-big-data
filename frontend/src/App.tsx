@@ -3,7 +3,7 @@ import { Cloud, Sparkles, TerminalSquare, Hourglass, RefreshCcw, Star, Copy, Fil
 import { AnimatePresence, motion } from 'framer-motion';
 import { Toaster, toast } from 'react-hot-toast';
 
-const API_BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:8000';
+const API_BASE = import.meta.env.VITE_API_URL ?? 'https://mini-api-esme-454538766395.europe-west1.run.app';
 
 interface PoemEntry {
   text: string;
