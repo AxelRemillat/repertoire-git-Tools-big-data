@@ -11,7 +11,7 @@ API REST Python/FastAPI déployée sur Google Cloud Run, avec stockage GCS et g�
 |-----------|-----|
 | **API en production (Cloud Run)** | https://mini-api-esme-454538766395.europe-west1.run.app |
 | **Documentation Swagger** | https://mini-api-esme-454538766395.europe-west1.run.app/docs |
-| **Image Docker (Artifact Registry)** | `europe-west1-docker.pkg.dev/rise-connect-8407a/cloud-run-source-deploy/mini-api-esme` |
+| **Image Docker (Artifact Registry GCP)** | `europe-west1-docker.pkg.dev/rise-connect-8407a/cloud-run-source-deploy/mini-api-esme` |
 | **Repo GitHub** | https://github.com/AxelRemillat/repertoire-git-Tools-big-data |
 
 ---
@@ -250,3 +250,7 @@ gcloud run deploy mini-api-esme-frontend \
 - Le fichier de compte de service (`.json`) est exclu du dépôt via `.gitignore`
 - Le fichier `.env` n'est jamais commité
 - Le compte de service respecte le principe du moindre privilège (`storage.objectAdmin` + `aiplatform.user` uniquement)
+
+---
+
+> **Note sur l'image Docker** : conformément aux pratiques GCP recommandées, l'image est stockée sur **Google Artifact Registry** (intégré nativement à Cloud Run et Cloud Build) plutôt que sur Docker Hub. Le build et le push sont automatisés par `gcloud run deploy --source .`.
