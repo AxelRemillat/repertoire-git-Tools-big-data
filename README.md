@@ -48,24 +48,22 @@ API REST Python/FastAPI déployée sur Google Cloud Run, avec stockage GCS et g�
 ## Répartition des rôles
 
 ### Axel Remillat
-- Architecture et squelette FastAPI initial
-- Implémentation des 5 endpoints (`/hello`, `/status`, `/data` GET+POST, `/poem`)
-- Service GCS (`gcs_service.py`) — lecture/écriture JSON dans le bucket
-- Service Vertex AI (`vertex_service.py`) — génération de poème via Gemini
-- Création du Dockerfile backend et du `.dockerignore`
-- Tests unitaires (`tests/test_endpoints.py`)
-- Développement du frontend React (composants, UI, intégration API)
-- Dockerfile frontend (multi-stage build nginx)
+- Structure initiale du projet FastAPI (squelette, endpoints, organisation des fichiers)
+- Développement du frontend React : composants, intégration des 5 endpoints, affichage des données
+- Correction frontend : heure serveur lue depuis `/status` (UTC), validation du formulaire avant envoi
+- Préparation du déploiement Cloud Run : fichiers de configuration nginx et build pour le frontend
+- Tests unitaires supplémentaires : redirect `/` et comportement d'ajout `POST /data`
+- Documentation README : instructions locales, Cloud Run, clarification stockage GCP
 
 ### Mathis Levrot
-- Configuration complète de l'infrastructure GCP :
-  - Activation des APIs (Vertex AI, Cloud Storage, Cloud Run, Cloud Build, Artifact Registry)
-  - Création du bucket GCS `rise-connect-mini-api-mathis` (région `europe-west1`)
-  - Initialisation du fichier `data/entries.json` dans le bucket
-  - Compte de service `mini-api-sa` avec rôles IAM (`storage.objectAdmin`, `aiplatform.user`)
-- Correction du service Vertex AI (modèle `gemini-2.0-flash-001`, région `us-central1`)
+- Configuration de l'infrastructure GCP : activation des APIs (Vertex AI, Cloud Storage, Cloud Run, Cloud Build, Artifact Registry), création du bucket GCS `rise-connect-mini-api-mathis`, compte de service `mini-api-sa` avec rôles IAM (`storage.objectAdmin`, `aiplatform.user`)
+- Correction service Vertex AI : modèle `gemini-2.0-flash-001`, région `us-central1`, poème de secours en cas d'erreur
+- Activation du middleware CORS pour la communication frontend ↔ API
+- Correction du bug `POST /data` : les nouvelles entrées s'ajoutent sans écraser les données existantes dans GCS
+- Ajout des fichiers de configuration frontend (Tailwind, PostCSS, TypeScript)
+- Nettoyage du code frontend (suppression éléments de debug)
 - Déploiement de l'API sur Cloud Run via Cloud Build
-- Mise à jour `.gitignore` et documentation README
+- Documentation README avec liens Cloud Run
 
 ---
 
