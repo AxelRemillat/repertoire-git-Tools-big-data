@@ -13,6 +13,15 @@ client = TestClient(app)
 
 
 # ──────────────────────────────────────────────
+# GET / — redirect vers /docs
+# ──────────────────────────────────────────────
+def test_root_redirects_to_docs():
+    resp = client.get("/", follow_redirects=False)
+    assert resp.status_code == 307
+    assert resp.headers["location"] == "/docs"
+
+
+# ──────────────────────────────────────────────
 # GET /hello
 # ──────────────────────────────────────────────
 def test_hello():
@@ -70,6 +79,19 @@ def test_post_data_adds_entry(monkeypatch):
     body = resp.json()
     assert body["status"] == "ok"
     assert body["added"] == payload
+
+
+def test_post_data_appends_to_existing(monkeypatch):
+    existing = [{"name": "Bob", "score": 10}]
+    written = []
+
+    monkeypatch.setattr("app.main.read_json_from_gcs", lambda: list(existing))
+    monkeypatch.setattr("app.main.write_json_to_gcs", lambda data: written.extend(data))
+
+    client.post("/data", json={"name": "Alice", "score": 42})
+    assert len(written) == 2
+    assert written[0]["name"] == "Bob"
+    assert written[1]["name"] == "Alice"
 
 
 # ──────────────────────────────────────────────
