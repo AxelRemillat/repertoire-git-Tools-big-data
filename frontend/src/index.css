@@ -1,0 +1,168 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  font-family: 'Courier New', 'IBM Plex Mono', monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f1e8 0%, #fef3c7 50%, #f0fdf4 100%);
+  color: #0a0a0a;
+  font-family: 'Courier New', 'IBM Plex Mono', monospace;
+  line-height: 1.4;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+  font-family: 'Courier New', 'IBM Plex Mono', monospace;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Times New Roman', Georgia, serif;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.section-label {
+  font-family: 'Courier New', 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: #c41e3a;
+}
+
+.brutal-border {
+  border: 3px solid #0a0a0a;
+}
+
+.brutal-shadow {
+  box-shadow: 6px 6px 0 #0a0a0a;
+}
+
+.brutal-shadow-blue {
+  box-shadow: 4px 4px 0 #1e40af;
+}
+
+.brutal-shadow-green {
+  box-shadow: 4px 4px 0 #059669;
+}
+
+.brutal-shadow-purple {
+  box-shadow: 4px 4px 0 #7c3aed;
+}
+
+.separator {
+  border-top: 2px solid #0a0a0a;
+  margin: 2rem 0;
+  position: relative;
+}
+
+.separator::before {
+  content: '═══════';
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #f5f1e8, #fef3c7);
+  padding: 0 1rem;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.footer-line {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  margin: 3rem 0;
+  font-family: 'Times New Roman', Georgia, serif;
+}
+
+/* Sections colorées */
+.section-api {
+  background: linear-gradient(135deg, #dbeafe 0%, #eff6ff 100%);
+  border: 3px solid #1e40af;
+}
+
+.section-poem {
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  border: 3px solid #059669;
+}
+
+.section-data {
+  background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
+  border: 3px solid #7c3aed;
+}
+
+.status-online {
+  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+  border: 2px solid #16a34a;
+  color: #14532d;
+}
+
+.status-offline {
+  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+  border: 2px solid #dc2626;
+  color: #7f1d1d;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  border: 2px solid #1e3a8a;
+  color: white;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #1d4ed8 0%, #1e3a8a 100%);
+  transform: translate(-1px, -1px);
+  box-shadow: 7px 7px 0 #1e3a8a;
+}
+
+.btn-secondary {
+  background: linear-gradient(135deg, #22c55e 0%, #15803d 100%);
+  border: 2px solid #14532d;
+  color: white;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background: linear-gradient(135deg, #15803d 0%, #14532d 100%);
+  transform: translate(-1px, -1px);
+  box-shadow: 7px 7px 0 #14532d;
+}
+
+.btn-tertiary {
+  background: linear-gradient(135deg, #a855f7 0%, #7c2d92 100%);
+  border: 2px solid #581c87;
+  color: white;
+  transition: all 0.2s ease;
+}
+
+.btn-tertiary:hover {
+  background: linear-gradient(135deg, #7c2d92 0%, #581c87 100%);
+  transform: translate(-1px, -1px);
+  box-shadow: 7px 7px 0 #581c87;
+}
+
+.table-row:hover {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(34, 197, 94, 0.1) 100%);
+  transform: scale(1.01);
+  transition: all 0.2s ease;
+}

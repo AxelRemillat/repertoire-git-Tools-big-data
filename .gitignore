@@ -12,7 +12,12 @@ __pycache__/
 .env
 
 # Clés de compte de service GCP (ne jamais committer !)
-*.json
+service-account.json
+*-key.json
+
+# Données GCS locales et artefacts npm parasites
+entries.json
+package-lock.json
 
 # Éditeurs
 .vscode/
@@ -28,3 +33,4 @@ build/
 .pytest_cache/
 .coverage
 htmlcov/
+*.pdf 
