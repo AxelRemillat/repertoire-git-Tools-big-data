@@ -40,11 +40,18 @@ export default function App() {
   async function fetchStatus() {
     setLoadingStatus(true);
     try {
-      const res = await fetch(`${API_BASE}/hello`);
-      const data = await res.json();
-      setOnline(res.ok);
-      setHelloMessage(data.message ?? '');
-      setStatusTime(new Date().toLocaleTimeString('fr-FR').replace(/:/g, ' : '));
+      const [helloRes, statusRes] = await Promise.all([
+        fetch(`${API_BASE}/hello`),
+        fetch(`${API_BASE}/status`),
+      ]);
+      const helloData = await helloRes.json();
+      const statusData = await statusRes.json();
+      setOnline(helloRes.ok);
+      setHelloMessage(helloData.message ?? '');
+      const serverTime = statusData.server_time
+        ? new Date(statusData.server_time).toLocaleTimeString('fr-FR').replace(/:/g, ' : ')
+        : '-- -- --';
+      setStatusTime(serverTime);
     } catch {
       setOnline(false);
       setStatusTime('-- -- --');
@@ -83,6 +90,10 @@ export default function App() {
 
   async function handleAddEntry(e: FormEvent) {
     e.preventDefault();
+    if (!formName.trim()) {
+      toast.error('Le nom ne peut pas être vide');
+      return;
+    }
     try {
       const res = await fetch(`${API_BASE}/data`, {
         method: 'POST',
