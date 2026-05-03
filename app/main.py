@@ -39,14 +39,20 @@ def status():
     return {"server_time": datetime.now(timezone.utc).isoformat()}
 
 
+def _as_list(raw) -> list:
+    """Normalise le contenu GCS en liste, quel que soit le format stocké."""
+    if isinstance(raw, list):
+        return raw
+    if isinstance(raw, dict):
+        return raw.get("entries", [])
+    return []
+
+
 @app.get("/data")
 def get_data():
-    """
-    Lit un fichier JSON (liste d'objets) depuis GCS.
-    Retourne une liste vide si le fichier n'existe pas encore.
-    """
+    """Lit la liste d'entrées depuis GCS."""
     try:
-        data = read_json_from_gcs()
+        data = _as_list(read_json_from_gcs())
     except Exception as exc:
         raise HTTPException(status_code=500, detail=str(exc)) from exc
     return data
@@ -54,14 +60,11 @@ def get_data():
 
 @app.post("/data")
 def post_data(entry: dict):
-    """
-    Ajoute un objet JSON au fichier GCS.
-    Crée le fichier si nécessaire.
-    """
+    """Ajoute une entrée JSON dans GCS."""
     try:
-        updated = read_json_from_gcs()        # liste existante (ou [])
-        updated.append(entry)
-        write_json_to_gcs(updated)
+        entries = _as_list(read_json_from_gcs())
+        entries.append(entry)
+        write_json_to_gcs(entries)
     except Exception as exc:
         raise HTTPException(status_code=500, detail=str(exc)) from exc
     return {"status": "ok", "added": entry}
