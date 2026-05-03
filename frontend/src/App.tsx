@@ -184,7 +184,7 @@ export default function App() {
 
         <div className="separator" />
 
-        {/* Section 2 — Poem Generator */}
+        {/* Section 2 — Générateur de poèmes */}
         <section className="mb-16 section-poem p-8 shadow-brutal-green">
           <div className="mb-8 text-center">
             <p className="section-label text-secondary-700">★ POEM GENERATOR ★</p>
@@ -259,7 +259,7 @@ export default function App() {
 
         <div className="separator" />
 
-        {/* Section 3 — Data Manager */}
+        {/* Section 3 — Gestionnaire de données */}
         <section className="mb-16 section-data p-8 shadow-brutal-purple">
           <div className="mb-8 text-center">
             <p className="section-label text-tertiary-700">§ DATA MANAGER §</p>
