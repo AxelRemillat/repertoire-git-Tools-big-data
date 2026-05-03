@@ -1,12 +1,7 @@
 """
 Service Vertex AI — génération d'un poème en français via Gemini.
-
-Variables d'environnement requises :
-  GCP_PROJECT_ID — identifiant du projet GCP
-  GCP_REGION     — région (défaut : europe-west1)
 """
 import os
-
 import vertexai
 from vertexai.generative_models import GenerativeModel
 
@@ -18,18 +13,27 @@ PROMPT = (
     "sur le thème du nuage et du code. Sois poétique et créatif."
 )
 
+FALLBACK_POEM = (
+    "Dans le silence du cloud,\n"
+    "Mon code s'élève en nuage,\n"
+    "Lignes de vers, lignes de doute,\n"
+    "L'algorithme prend son envol sage."
+)
+
 
 def generate_poem() -> str:
     """
     Initialise Vertex AI, envoie le prompt à Gemini et retourne le texte généré.
-    Lève une RuntimeError si la réponse est vide.
+    Retourne un poème de fallback si Vertex AI échoue.
     """
-    vertexai.init(project=GCP_PROJECT_ID, location="us-central1")
-
-    model = GenerativeModel("gemini-1.5-flash")
-    response = model.generate_content(PROMPT)
-
-    text = response.text.strip()
-    if not text:
-        raise RuntimeError("Vertex AI a retourné une réponse vide.")
-    return text
+    try:
+        vertexai.init(project=GCP_PROJECT_ID, location="us-central1")
+        model = GenerativeModel("gemini-2.0-flash-001")
+        response = model.generate_content(PROMPT)
+        text = response.text.strip()
+        if text:
+            return text
+    except Exception as e:
+        print(f"[Vertex AI fallback] Error: {e}")
+    
+    return FALLBACK_POEM
