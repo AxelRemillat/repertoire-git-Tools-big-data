@@ -6,10 +6,10 @@ from datetime import datetime, timezone
 from fastapi import FastAPI, HTTPException
 from dotenv import load_dotenv
 
+load_dotenv(override=True)
+
 from app.gcs_service import read_json_from_gcs, write_json_to_gcs
 from app.vertex_service import generate_poem
-
-load_dotenv()
 
 app = FastAPI(
     title="Mini API ESME",
