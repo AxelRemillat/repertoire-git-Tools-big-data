@@ -15,6 +15,7 @@ L'objectif est de concevoir, conteneuriser et déployer une API REST avec Python
 | Ressource | URL |
 |-----------|-----|
 | 🚀 **API en production** | https://mini-api-esme-454538766395.europe-west1.run.app |
+| 📊 **Endpoint /data (vérifié)** | https://mini-api-esme-454538766395.europe-west1.run.app/data |
 | 🌐 **Frontend en production** | https://mini-api-esme-frontend-454538766395.europe-west1.run.app |
 | 📚 **Documentation Swagger** | https://mini-api-esme-454538766395.europe-west1.run.app/docs |
 | 🐳 **Image Docker (Artifact Registry)** | `europe-west1-docker.pkg.dev/rise-connect-8407a/cloud-run-source-deploy/mini-api-esme` |
