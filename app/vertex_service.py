@@ -1,21 +1,16 @@
 """
-Service Vertex AI — génération d'un poème en français via Gemini.
+Service de génération de poème en français via OpenAI GPT.
 
 Variables d'environnement requises :
-  GCP_PROJECT_ID — identifiant du projet GCP
-  GCP_REGION     — région (défaut : europe-west1)
+  OPENAI_API_KEY — clé API OpenAI
 """
 import os
-
-import vertexai
-from vertexai.generative_models import GenerativeModel
-
-GCP_PROJECT_ID = os.environ.get("GCP_PROJECT_ID", "")
-GCP_REGION = os.environ.get("GCP_REGION", "europe-west1")
+from openai import OpenAI
 
 PROMPT = (
     "Écris un court poème original en français (4 à 8 vers) "
-    "sur le thème du nuage et du code. Sois poétique et créatif."
+    "sur le thème du nuage et du code. Sois poétique et créatif. "
+    "Varie le style à chaque génération."
 )
 
 FALLBACK_POEM = (
@@ -27,18 +22,17 @@ FALLBACK_POEM = (
 
 
 def generate_poem() -> str:
-    """
-    Initialise Vertex AI, envoie le prompt à Gemini et retourne le texte généré.
-    Retourne un poème de fallback si Vertex AI échoue.
-    """
     try:
-        vertexai.init(project=GCP_PROJECT_ID, location="us-central1")
-        model = GenerativeModel("gemini-2.0-flash-001")
-        response = model.generate_content(PROMPT)
-        text = response.text.strip()
+        client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[{"role": "user", "content": PROMPT}],
+            temperature=1.2,
+        )
+        text = response.choices[0].message.content.strip()
         if text:
             return text
     except Exception as e:
-        print(f"[Vertex AI fallback] Error: {e}")
+        print(f"[OpenAI fallback] Error: {e}")
 
     return FALLBACK_POEM
