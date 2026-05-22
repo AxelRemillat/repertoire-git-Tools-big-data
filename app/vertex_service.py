@@ -1,22 +1,20 @@
-"""
-Service Vertex AI — génération d'un poème en français via Gemini.
-
-Variables d'environnement requises :
-  GCP_PROJECT_ID — identifiant du projet GCP
-  GCP_REGION     — région (défaut : europe-west1)
-"""
 import os
+import random
 
-import vertexai
-from vertexai.generative_models import GenerativeModel
+PROMPT_THEMES = [
+    "le nuage et le code",
+    "l'intelligence artificielle et la nature",
+    "les données qui voyagent",
+    "un algorithme qui rêve",
+    "le silence des serveurs",
+]
 
-GCP_PROJECT_ID = os.environ.get("GCP_PROJECT_ID", "")
-GCP_REGION = os.environ.get("GCP_REGION", "europe-west1")
-
-PROMPT = (
-    "Écris un court poème original en français (4 à 8 vers) "
-    "sur le thème du nuage et du code. Sois poétique et créatif."
-)
+def _build_prompt() -> str:
+    theme = random.choice(PROMPT_THEMES)
+    return (
+        f"Écris un court poème original et unique en français (4 à 8 vers) "
+        f"sur le thème : {theme}. Sois poétique, créatif et surprenant."
+    )
 
 FALLBACK_POEM = (
     "Dans le silence du cloud,\n"
@@ -26,19 +24,57 @@ FALLBACK_POEM = (
 )
 
 
-def generate_poem() -> str:
-    """
-    Initialise Vertex AI, envoie le prompt à Gemini et retourne le texte généré.
-    Retourne un poème de fallback si Vertex AI échoue.
-    """
+def _try_vertex() -> str | None:
     try:
-        vertexai.init(project=GCP_PROJECT_ID, location="us-central1")
-        model = GenerativeModel("gemini-2.0-flash-001")
-        response = model.generate_content(PROMPT)
-        text = response.text.strip()
-        if text:
-            return text
-    except Exception as e:
-        print(f"[Vertex AI fallback] Error: {e}")
+        import vertexai
+        from vertexai.generative_models import GenerativeModel
 
+        project = os.environ.get("GCP_PROJECT_ID", "")
+        if not project:
+            return None
+
+        vertexai.init(project=project, location="us-central1")
+        model = GenerativeModel("gemini-2.0-flash-001")
+        response = model.generate_content(_build_prompt())
+        text = response.text.strip()
+        return text if text else None
+    except Exception as e:
+        print(f"[Vertex AI] échec : {e}")
+        return None
+
+
+def _try_openai() -> str | None:
+    try:
+        from openai import OpenAI
+
+        api_key = os.environ.get("OPENAI_API_KEY", "")
+        if not api_key:
+            return None
+
+        client = OpenAI(api_key=api_key)
+        response = client.chat.completions.create(
+            model=os.environ.get("GENERATION_MODEL", "gpt-4o"),
+            messages=[{"role": "user", "content": _build_prompt()}],
+            max_tokens=300,
+            temperature=1.0,
+        )
+        text = response.choices[0].message.content.strip()
+        return text if text else None
+    except Exception as e:
+        print(f"[OpenAI] échec : {e}")
+        return None
+
+
+def generate_poem() -> str:
+    poem = _try_vertex()
+    if poem:
+        print("[generate_poem] source : Vertex AI")
+        return poem
+
+    poem = _try_openai()
+    if poem:
+        print("[generate_poem] source : OpenAI")
+        return poem
+
+    print("[generate_poem] source : fallback statique")
     return FALLBACK_POEM
