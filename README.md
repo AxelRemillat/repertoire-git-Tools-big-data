@@ -15,6 +15,7 @@ L'objectif est de concevoir, conteneuriser et déployer une API REST avec Python
 | Ressource | URL |
 |-----------|-----|
 | 🚀 **API en production** | https://mini-api-esme-454538766395.europe-west1.run.app |
+| 🌐 **Frontend en production** | https://mini-api-esme-frontend-454538766395.europe-west1.run.app |
 | 📚 **Documentation Swagger** | https://mini-api-esme-454538766395.europe-west1.run.app/docs |
 | 🐳 **Image Docker (Artifact Registry)** | `europe-west1-docker.pkg.dev/rise-connect-8407a/cloud-run-source-deploy/mini-api-esme` |
 | 📦 **Repo GitHub** | https://github.com/AxelRemillat/repertoire-git-Tools-big-data |
@@ -48,6 +49,7 @@ L'objectif est de concevoir, conteneuriser et déployer une API REST avec Python
 | Framework API   | FastAPI 0.111 + Uvicorn              |
 | Conteneur       | Docker (python:3.11-slim)            |
 | Déploiement     | GCP Cloud Run + Cloud Build          |
+| Frontend UI     | React + Vite                         |
 | Stockage        | Google Cloud Storage                 |
 | IA générative   | Vertex AI — Gemini 2.0 Flash         |
 | Tests           | pytest + TestClient                  |
@@ -197,7 +199,20 @@ gcloud run deploy mini-api-esme \
 ```
 
 Sur Cloud Run, les identifiants GCP sont injectés automatiquement via le compte de service attaché — pas besoin de `GOOGLE_APPLICATION_CREDENTIALS`.
+### Déploiement du frontend
 
+Le frontend React est également déployé sur Cloud Run depuis le dossier `frontend` :
+
+```bash
+cd frontend
+gcloud run deploy mini-api-esme-frontend \
+  --source . \
+  --region europe-west1 \
+  --allow-unauthenticated \
+  --project rise-connect-8407a
+```
+
+Le frontend utilise automatiquement l'API Cloud Run en production via `https://mini-api-esme-454538766395.europe-west1.run.app`.
 ---
 
 ## 11. Sécurité
