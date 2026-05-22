@@ -9,6 +9,7 @@ API REST Python/FastAPI déployée sur Google Cloud Run, avec stockage des donn�
 
 | Ressource | URL |
 |-----------|-----|
+| **Frontend (Cloud Run)** | https://mini-api-esme-frontend-454538766395.europe-west1.run.app |
 | **API en production (Cloud Run)** | https://mini-api-esme-454538766395.europe-west1.run.app |
 | **Documentation Swagger** | https://mini-api-esme-454538766395.europe-west1.run.app/docs |
 | **Image (Artifact Registry GCP)** | `europe-west1-docker.pkg.dev/rise-connect-8407a/cloud-run-source-deploy/mini-api-esme` |
